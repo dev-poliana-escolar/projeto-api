@@ -10,8 +10,8 @@ import { Observable
 export class PersonagensService {
     constructor(private http:HttpClient){}
     
-    listarPersonagens(): Observable <Array<IPersonagens>>{
-      return this.http.get<Array<IPersonagens>>("https://last-airbender-api.fly.dev/api/v1/characters")
+    listarPersonagens(page :number =1, perPage=8): Observable <Array<IPersonagens>>{
+      return this.http.get<Array<IPersonagens>>(`https://last-airbender-api.fly.dev/api/v1/characters?page=${page}&perPage=${perPage}`)
     }
 
     detalharPersonagemId(id: string):Observable<IPersonagens>{

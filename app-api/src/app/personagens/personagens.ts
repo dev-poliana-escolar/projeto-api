@@ -11,6 +11,7 @@ import { RouterLink } from '@angular/router';
 })
 export class Personagens {
   personagens = signal<Array<IPersonagens>>([]);
+  pageAtual = signal(1);
 
   constructor(
     private servico: PersonagensService,
@@ -21,9 +22,21 @@ export class Personagens {
   }
 
   listarPersonagens(){
-    this.servico.listarPersonagens().subscribe((data)=> {
+    this.servico.listarPersonagens(this.pageAtual()).subscribe((data)=> {
       this.personagens.set(data)
     })
+  }
+
+  nextPage(){
+    this.pageAtual.update(p=>p+1);
+    this.listarPersonagens();
+  }
+
+  previousPage(){
+    if(this.pageAtual()>1){
+      this.pageAtual.update(p => p - 1);
+      this.listarPersonagens();
+    }
   }
 
  
